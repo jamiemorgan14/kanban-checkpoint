@@ -57,6 +57,12 @@ export default new Vuex.Store({
           router.push({ name: 'boards' })
         })
     },
+    logOut({ commit, dispatch }) {
+      auth.delete('logout')
+        .then(res => {
+          router.push({ name: 'login' })
+        })
+    },
     //#endregion
 
 
