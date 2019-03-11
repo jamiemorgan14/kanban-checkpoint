@@ -2,7 +2,8 @@ let router = require('express').Router()
 let Lists = require('../models/list')
 
 //GET
-router.get('/board/' + ':boardId', (req, res, next) => {
+//gets all lists by board id
+router.get('/:boardId', (req, res, next) => {
   Lists.find({ boardId: req.params.boardId })
     .then(lists => {
       res.send(lists)
@@ -14,7 +15,7 @@ router.get('/board/' + ':boardId', (req, res, next) => {
 })
 
 //POST
-router.post('/board/' + ':boardId', (req, res, next) => {
+router.post('/:boardId', (req, res, next) => {
   Lists.create(req.body)
     .then(newList => {
       res.send(newList)
@@ -26,7 +27,7 @@ router.post('/board/' + ':boardId', (req, res, next) => {
 })
 
 //PUT
-router.put('/board' + '/:boardId' + '/list' + '/:listId', (req, res, next) => {
+router.put('/:boardId' + '/list' + '/:listId', (req, res, next) => {
   Lists.findById({ _id: req.params.id }, req.body, { new: true })
     .then(list => {
       list.push(req.body)
@@ -38,7 +39,7 @@ router.put('/board' + '/:boardId' + '/list' + '/:listId', (req, res, next) => {
     })
 
   //DELETE
-  router.delete('/board' + '/:boardId' + '/list' + '/:listId', (req, res, next) => {
+  router.delete('/:boardId' + '/list' + '/:listId', (req, res, next) => {
     Lists.findOneAndDelete({ _id: req.params.id })
       .then(deletedList => {
         res.send("Successfully Deleted")
