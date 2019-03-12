@@ -11,8 +11,8 @@ let subComment = new Schema({
 let schema = new Schema({
   description: { type: String, required: true },
   authorId: { type: ObjectId, ref: 'User', required: true },
-  boardId: { type: ObjectId, ref: 'Board', required: true },
   listId: { type: ObjectId, ref: 'Lists', required: true },
+  completed: { type: Boolean, required: true, default: false },
   subComments: [subComment]
 }, { timestamps: true })
 

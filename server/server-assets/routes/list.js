@@ -3,7 +3,7 @@ let Lists = require('../models/list')
 
 //GET
 //gets all lists by board id
-router.get('/:boardId', (req, res, next) => {
+router.get('/:boardId/lists', (req, res, next) => {
   Lists.find({ boardId: req.params.boardId })
     .then(lists => {
       res.send(lists)
@@ -15,7 +15,7 @@ router.get('/:boardId', (req, res, next) => {
 })
 
 //GETONE
-router.get('/:boardId/list/:listId', (req, res, next) => {
+router.get('/:boardId/lists/:listId', (req, res, next) => {
   Lists.findOne({ _id: req.params.listId })
     .then(data => {
       res.send(data)
@@ -27,7 +27,7 @@ router.get('/:boardId/list/:listId', (req, res, next) => {
 })
 
 //POST
-router.post('/:boardId', (req, res, next) => {
+router.post('/:boardId/lists', (req, res, next) => {
   Lists.create(req.body)
     .then(newList => {
       res.send(newList)
@@ -39,7 +39,7 @@ router.post('/:boardId', (req, res, next) => {
 })
 
 // PUT
-router.put('/:boardId/list/:listId', (req, res, next) => {
+router.put('/:boardId/lists/:listId', (req, res, next) => {
   Lists.findOneAndUpdate({ _id: req.params.listId }, req.body, { new: true })
     .then(list => {
       res.send(list)
@@ -50,7 +50,7 @@ router.put('/:boardId/list/:listId', (req, res, next) => {
 })
 
 //DELETE
-router.delete('/:boardId/list/:listId', (req, res, next) => {
+router.delete('/:boardId/lists/:listId', (req, res, next) => {
   Lists.findById(req.params.listId)
     .then(list => {
       if (!list.authorId.equals(req.session.uid)) {
