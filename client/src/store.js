@@ -21,6 +21,8 @@ export default new Vuex.Store({
   state: {
     user: {},
     boards: [],
+    lists: [],
+    tasks: [],
     activeBoard: {},
     activeList: {}
   },
@@ -33,6 +35,12 @@ export default new Vuex.Store({
     },
     setActiveList(state, data) {
       state.activeList = data
+    },
+    setLists(state, data) {
+      state.lists = data
+    },
+    setTasks(state, data) {
+      state.tasks = data
     }
   },
   actions: {
@@ -89,6 +97,19 @@ export default new Vuex.Store({
           dispatch('getBoards')
         })
     },
+
+    getLists({ commit, dispatch }, payload) {
+      api.get('boards/' + payload + '/lists')
+        .then(res => {
+          commit('setLists', res.data)
+        })
+    },
+    addList({ commit, dispatch }, payload) {
+      api.post('boards/' + payload.boardId + '/lists')
+        .then(res => {
+          dispatch('getLists', payload.boardId)
+        })
+    }
     // getList
     //#endregion
 

@@ -1,19 +1,57 @@
 <template>
-  <div class="board">
-    {{board.title}}
-
-    <list v-for="list in lists" :listData='list'></list>
+  <div class="board container-fluid">
+    <form @submit.prevent="addList">
+      <input type="text" placeholder="title" v-model="newList.title" required>
+      <button type="submit">Create List</button>
+    </form>
+    <div class="row">
+      <div class="col">
+        <h1>{{board.title}}</h1>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="col">
+      <list></list>
+    </div>
+  </div>
   </div>
 </template>
 
 <script>
+  import list from '@/components/ListComp.vue';
+
   export default {
     name: "board",
+    data() {
+      return {
+        newList: {
+          title: "",
+          boardId: this.$route.params.boardId,
+
+
+        }
+      }
+    },
+    mounted() {
+      this.$store.dispatch('getLists', this.$route.params.boardId)
+    },
     computed: {
       board() {
         return this.$store.state.boards.find(b => b._id == this.boardId) || { title: 'Loading...' }
+      },
+      lists() {
+        return this.$store.state.lists;
       }
     },
-    props: ["boardId"]
+    props: ["boardId"],
+    components: {
+      list
+    },
+    methods: {
+      addList() {
+        this.$store.dispatch('addList', this.newList)
+      }
+    }
+
   };
 </script>
