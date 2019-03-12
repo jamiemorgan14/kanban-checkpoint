@@ -14,8 +14,9 @@ router.get('/:boardId', (req, res, next) => {
     })
 })
 
+//GETONE
 router.get('/:boardId' + '/list' + '/:listId', (req, res, next) => {
-  Lists.findOne({})
+  Lists.findOne({ _id: req.params.listId })
     .then(data => {
       res.send(data)
     })
@@ -38,17 +39,14 @@ router.post('/:boardId', (req, res, next) => {
 })
 
 //PUT
-// router.put('/:boardId' + '/list' + '/:listId', (req, res, next) => {
-//   Lists.findById(req.params.listId)
-//     .then(list => {
-//       list.update(req.body)
-//       res.send("Successfully Updated")
-//     })
-//     .catch(err => {
-//       console.log(err)
-//       next()
-//     })
-// })
+router.put('/:boardId' + '/list' + '/:listId', async (req, res, next) => {
+  try {
+    let list = await Lists.findByIdAndUpdate(req.params.id, req.body)
+    res.send(list)
+  } catch (err) {
+    res.status(400).send(err)
+  }
+})
 
 //DELETE
 router.delete('/:boardId' + '/list' + '/:listId', (req, res, next) => {
