@@ -66,7 +66,7 @@ export default new Vuex.Store({
         .then(res => {
           router.push({ name: 'login' })
         })
-    }
+    },
     //#endregion
 
 
@@ -89,7 +89,7 @@ export default new Vuex.Store({
           dispatch('getBoards')
         })
     },
-    getList
+    // getList
     //#endregion
 
 
