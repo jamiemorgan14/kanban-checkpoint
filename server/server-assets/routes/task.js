@@ -3,8 +3,8 @@ let Tasks = require('../models/task')
 
 //GET
 //gets all  by board id
-router.get('/', (req, res, next) => {
-  Tasks.find()
+router.get('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
+  Tasks.find({ listId: req.params.listId })
     .then(tasks => {
       res.send(tasks)
     })
@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 })
 
 //POST
-router.post('/', (req, res, next) => {
+router.post('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
   Tasks.create(req.body)
     .then(newTask => {
       res.send(newTask)
@@ -28,7 +28,7 @@ router.post('/', (req, res, next) => {
 
 
 //PUT
-router.put('/:taskId', (req, res, next) => {
+router.put('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
   Tasks.findOneAndUpdate({ _id: req.params.taskId }, req.body, { new: true })
     .then(task => {
       res.send(task)
@@ -39,7 +39,7 @@ router.put('/:taskId', (req, res, next) => {
 })
 
 //add subcomment
-router.put('/:taskId/subComments', (req, res, next) => {
+router.put('/boards/:boardId/lists/:listId/tasks/:taskId/subComments', (req, res, next) => {
   Tasks.findById(req.params.taskId)
     .then(task => {
       task.subComments.push(req.body)
@@ -52,7 +52,7 @@ router.put('/:taskId/subComments', (req, res, next) => {
     })
 })
 
-router.delete('/:taskId/subComments/:commentId', (req, res, next) => {
+router.delete('/boards/:boardId/lists/:listId/tasks/:taskId/subComments/:commentId', (req, res, next) => {
   Tasks.findById(req.params.taskId)
     .then(task => {
       task.subComments.id(req.params.commentId).remove()
@@ -70,7 +70,7 @@ router.delete('/:taskId/subComments/:commentId', (req, res, next) => {
 
 
 //DELETE
-router.delete('/:taskId', (req, res, next) => {
+router.delete('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
   Tasks.findById(req.params.taskId)
     .then(task => {
       if (!task.authorId.equals(req.session.uid)) {

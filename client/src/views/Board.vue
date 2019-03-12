@@ -1,19 +1,17 @@
 <template>
-  <div class="board container-fluid">
+  <div class="board container-fluid mt-2">
     <form @submit.prevent="addList">
       <input type="text" placeholder="title" v-model="newList.title" required>
       <button type="submit">Create List</button>
     </form>
     <div class="row">
-      <div class="col">
+      <div class="col mt-3">
         <h1>{{board.title}}</h1>
       </div>
     </div>
-    <div class="row"></div>
-    <div class="col">
-      <list></list>
+    <div class="row">
+      <list class="col-3" v-for="list in lists" :listData='list'></list>
     </div>
-  </div>
   </div>
 </template>
 
