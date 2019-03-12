@@ -3,8 +3,8 @@ let Tasks = require('../models/task')
 
 //GET
 //gets all  by board id
-router.get('/:boardId/lists/:listId/tasks', (req, res, next) => {
-  Tasks.find({ listId: req.params.listId })
+router.get('/', (req, res, next) => {
+  Tasks.find()
     .then(tasks => {
       res.send(tasks)
     })
@@ -15,7 +15,7 @@ router.get('/:boardId/lists/:listId/tasks', (req, res, next) => {
 })
 
 //POST
-router.post('/:boardId/lists/:listId/tasks', (req, res, next) => {
+router.post('/', (req, res, next) => {
   Tasks.create(req.body)
     .then(newTask => {
       res.send(newTask)
@@ -28,7 +28,7 @@ router.post('/:boardId/lists/:listId/tasks', (req, res, next) => {
 
 
 //PUT
-router.put('/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
+router.put('/:taskId', (req, res, next) => {
   Tasks.findOneAndUpdate({ _id: req.params.taskId }, req.body, { new: true })
     .then(task => {
       res.send(task)
@@ -38,30 +38,39 @@ router.put('/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
     })
 })
 
-// router.put('/:id/sub-comments', (req, res, next) => {
-//   Task.findById(req.params.id)
-//     .then(task => {
-//       //if req.body._id exists then you are trying to delete a subComment
-//       //else you are creating a sub comment
-//       if (!req.body._id) {
-//         //create it
-//         task.subComments.push(req.body)
-//       } else {
-//         //delete it
-//         task.subComments.forEach((sc, i) => {
-//           if (sc._id.toString() == req.body._id) {
-//             task.subComments.splice(i, 1)
-//           }
-//         })
-//       }
-//       return task.save()
-//     })
-//     .then(() => res.send("Task Sent"))
-//     .catch(next)
-// })
+//add subcomment
+router.put('/:taskId/subComments', (req, res, next) => {
+  Tasks.findById(req.params.taskId)
+    .then(task => {
+      task.subComments.push(req.body)
+      task.save(err => {
+        if (err) {
+          return res.status(500).send(err)
+        }
+        return res.status(200).send(task)
+      })
+    })
+})
+
+router.delete('/:taskId/subComments/:commentId', (req, res, next) => {
+  Tasks.findById(req.params.taskId)
+    .then(task => {
+      task.subComments.id(req.params.commentId).remove()
+      task.save(err => {
+        if (err) {
+          return res.status(500).send(err)
+        }
+        return res.status(200).send('Comment eliminated')
+      })
+    })
+})
+
+
+
+
 
 //DELETE
-router.delete('/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
+router.delete('/:taskId', (req, res, next) => {
   Tasks.findById(req.params.taskId)
     .then(task => {
       if (!task.authorId.equals(req.session.uid)) {
@@ -82,5 +91,3 @@ router.delete('/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
 })
 
 module.exports = router
-
-// localhost:3000/api/boards/5c86cf144a951fe4f8750723/lists/5c8730a6324058f2e1270765/tasks
