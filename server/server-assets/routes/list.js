@@ -15,7 +15,7 @@ router.get('/:boardId', (req, res, next) => {
 })
 
 router.get('/:boardId' + '/list' + '/:listId', (req, res, next) => {
-  Lists.findOne(req.params.listId)
+  Lists.findOne({})
     .then(data => {
       res.send(data)
     })
