@@ -7,6 +7,7 @@
         <h5 class="card-title">{{listData.title}}</h5>
         <task v-for="task in tasks" :taskData='task'></task>
         <a href="#" class="btn btn-primary">Go to List</a>
+        <button @click="deleteList(listData)" class="btn btn-danger">Delete List</button>
       </div>
       <div class="card-footer text-muted">
         Last Updated???
@@ -34,7 +35,12 @@
         return this.$store.state.tasks[this.listData._id]
       }
     },
-    methods: {},
+    methods: {
+      deleteList(listData) {
+        debugger
+        this.$store.dispatch('deleteList', listData)
+      }
+    },
     components: {
       task
     }

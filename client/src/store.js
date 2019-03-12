@@ -115,6 +115,12 @@ export default new Vuex.Store({
         .then(res => {
           commit('setTasks', { tasks: res.data, listId: payload._id })
         })
+    },
+    deleteList({ commit, dispatch }, payload) {
+      api.delete('boards/' + payload.boardId + '/lists/' + payload._id)
+        .then(res => {
+          dispatch('getLists')
+        })
     }
     // getList
     //#endregion
