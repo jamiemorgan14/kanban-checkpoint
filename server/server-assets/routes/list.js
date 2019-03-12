@@ -15,7 +15,7 @@ router.get('/:boardId', (req, res, next) => {
 })
 
 //GETONE
-router.get('/:boardId' + '/list' + '/:listId', (req, res, next) => {
+router.get('/:boardId/list/:listId', (req, res, next) => {
   Lists.findOne({ _id: req.params.listId })
     .then(data => {
       res.send(data)
@@ -38,18 +38,19 @@ router.post('/:boardId', (req, res, next) => {
     })
 })
 
-//PUT
-router.put('/:boardId' + '/list' + '/:listId', async (req, res, next) => {
-  try {
-    let list = await Lists.findByIdAndUpdate(req.params.id, req.body)
-    res.send(list)
-  } catch (err) {
-    res.status(400).send(err)
-  }
+// PUT
+router.put('/:boardId/list/:listId', (req, res, next) => {
+  Lists.findOneAndUpdate({ _id: req.params.listId }, req.body, { new: true })
+    .then(list => {
+      res.send(list)
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
 })
 
 //DELETE
-router.delete('/:boardId' + '/list' + '/:listId', (req, res, next) => {
+router.delete('/:boardId/list/:listId', (req, res, next) => {
   Lists.findById(req.params.listId)
     .then(list => {
       if (!list.authorId.equals(req.session.uid)) {
