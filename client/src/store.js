@@ -105,7 +105,8 @@ export default new Vuex.Store({
         })
     },
     addList({ commit, dispatch }, payload) {
-      api.post('boards/' + payload.boardId + '/lists')
+      debugger
+      api.post('boards/' + payload.boardId + '/lists', payload)
         .then(res => {
           dispatch('getLists', payload.boardId)
         })

@@ -27,8 +27,7 @@
         newList: {
           title: "",
           boardId: this.$route.params.boardId,
-
-
+          authorId: this.$store.state.user._id
         }
       }
     },
@@ -41,6 +40,9 @@
       },
       lists() {
         return this.$store.state.lists;
+      },
+      user() {
+        return this.$store.state.user
       }
     },
     props: ["boardId"],
