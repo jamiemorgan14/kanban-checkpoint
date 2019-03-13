@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="row">
-      <list class="col-3" v-for="list in lists" :listData='list'></list>
+      <list class="col-4" v-for="list in lists" :listData='list'></list>
     </div>
   </div>
 </template>
