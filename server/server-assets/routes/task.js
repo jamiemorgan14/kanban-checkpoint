@@ -73,6 +73,7 @@ router.delete('/boards/:boardId/lists/:listId/tasks/:taskId/subComments/:comment
 router.delete('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
   Tasks.findById(req.params.taskId)
     .then(task => {
+      // @ts-ignore
       if (!task.authorId.equals(req.session.uid)) {
         return res.status(401).send("ACCESS DENIED!")
       }

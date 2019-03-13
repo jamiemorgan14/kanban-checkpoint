@@ -78,11 +78,7 @@
       //this may not work...
       tasks() {
         return this.$store.state.tasks[newTask._id]
-      },
-      // comments() {
-      //   debugger
-      //   return this.$store.state.tasks[this.taskData.listId]
-      // }
+      }
     },
     methods: {
       markComplete(editedTask) {
@@ -133,6 +129,4 @@
   .card {
     width: 420px
   }
-
-  .submitButton {}
 </style>
