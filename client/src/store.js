@@ -40,7 +40,8 @@ export default new Vuex.Store({
       state.lists = data
     },
     setTasks(state, data) {
-      state.tasks[data.listId] = data.tasks
+      // state.tasks[data.listId] = data.tasks
+      Vue.set(state.tasks, data.listId, data.tasks)
     }
   },
   actions: {
@@ -111,15 +112,34 @@ export default new Vuex.Store({
         })
     },
     getTasks({ commit, dispatch }, payload) {
-      api.get('boards/' + payload.boardId + '/lists/' + payload._id + '/tasks')
+      api.get('boards/' + payload.boardId + '/lists/' + (payload._id || payload.listId) + '/tasks')
         .then(res => {
-          commit('setTasks', { tasks: res.data, listId: payload._id })
+          commit('setTasks', { tasks: res.data, listId: payload._id || payload.listId })
+        })
+    },
+    getTaskUpdate({ commit, dispatch }, payload) {
+      api.get('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks')
+        .then(res => {
+          commit('setTasks', { tasks: res.data, listId: payload.listId })
+        })
+    },
+
+    makeTask({ commit, dispatch }, payload) {
+      api.post('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks', payload)
+        .then(res => {
+          dispatch('getTasks', payload)
         })
     },
     deleteList({ commit, dispatch }, payload) {
       api.delete('boards/' + payload.boardId + '/lists/' + payload._id)
         .then(res => {
           dispatch('getLists')
+        })
+    },
+    editTask({ commit, dispatch }, payload) {
+      api.put('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id, payload)
+        .then(res => {
+          dispatch('getTaskUpdate', payload)
         })
     }
     // getList

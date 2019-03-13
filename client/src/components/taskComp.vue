@@ -2,11 +2,15 @@
   <div class="task row">
     <div class="col">
       <ul>
-        <li class="task" @click="showform = !showform">{{taskData.description}} <i @click="" class="far fa-square"></i>
-          <i class="far fa-check-square"></i></li>
-        <form v-if="showform">
-          <input type="text" v-model="newTask.description">
-        </form>
+        <li class="task" @click="showSubForm = !showSubForm" v-bind:class="{completed: editedTask.completed}">{{taskData.description}}
+          <i v-if="!taskData.completed" @click="editedTask.completed = !editedTask.completed, markComplete(editedTask)"
+            class="far fa-square"></i>
+          <i v-if="taskData.completed" @click="editedTask.completed = !editedTask.completed, markComplete(editedTask)"
+            class="far fa-check-square"></i></li>
+        <!-- <form action="">
+          <input type="
+            text" v-model="taskData.description"></input>
+            </form> -->
       </ul>
     </div>
   </div>
@@ -20,20 +24,27 @@
     props: ['taskData'],
     data() {
       return {
-        newTask: {
-          description: '',
-          authorId: this.$store.state.user._id,
-          listId: this.taskData.listId
-        },
-        showform: false
+        showSubForm: false,
+        editedTask: {
+          completed: this.taskData.completed,
+          description: this.taskData.description,
+          listId: this.taskData.listId,
+          _id: this.taskData._id,
+          boardId: this.$route.params.boardId
+        }
       }
     },
     computed: {
+      //this may not work...
       tasks() {
-        return this.$store.state.tasks
+        return this.$store.state.tasks[newTask._id]
       }
     },
-    methods: {},
+    methods: {
+      markComplete(editedTask) {
+        this.$store.dispatch('editTask', editedTask)
+      }
+    },
     components: {
 
     }
@@ -42,5 +53,10 @@
 <style>
   .task {
     cursor: pointer;
+  }
+
+  .completed {
+    text-decoration: line-through;
+    color: grey
   }
 </style>
