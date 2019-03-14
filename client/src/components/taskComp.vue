@@ -31,7 +31,7 @@
           </div>
 
           <div class="inline" v-if="showTaskDetails" @mouseover="showTaskDetails = true" @mouseleave="showTaskDetails = false">
-            <i @click="showComments = !showComments, setActiveList(editedTask), setActiveTask(taskData)" class="fas fa-caret-down ml-1"></i>
+            <i @click="showComments = !showComments, setActiveList(editedTask), setActiveTask(editedTask)" class="fas fa-caret-down ml-1"></i>
             <i @click="addSubCommentForm = !addSubCommentForm" class="fas fa-comment-medical ml-4"></i>
             <i @click="removeTask(editedTask)" class="far fa-trash-alt ml-2"></i>
           </div>
@@ -39,7 +39,7 @@
 
         <div v-if="showComments">
           <div v-for="comment in taskData.subComments">
-            <comments :commentData="comment">
+            <comments :commentData="comment" :taskId="taskData._id">
             </comments>
           </div>
         </div>
@@ -78,14 +78,14 @@
         editTaskDetails: false,
         addSubCommentForm: false,
         showComments: false,
-        showCommentDelete: false
+        showCommentDelete: false,
       }
     },
     computed: {
       //this may not work...
       tasks() {
         return this.$store.state.tasks[this.editedTask._id]
-      },
+      }
       // subcomments() {
       //   debugger
       //   return this.$store.state.tasks[this.editedTask.subComments]
@@ -117,7 +117,8 @@
       },
       setActiveTask(taskData) {
         this.$store.dispatch('setActiveTask', taskData)
-      }
+      },
+
       // addComment(editedTask) {
       //   debugger
       //   this.$store.dispatch('editTask', editedTask)

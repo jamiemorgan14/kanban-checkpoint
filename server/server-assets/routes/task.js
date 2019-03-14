@@ -15,8 +15,8 @@ router.get('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
 })
 
 //get one task
-router.get('boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
-  Tasks.find({ taskId: req.params.taskId })
+router.get('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
+  Tasks.findById(req.params.taskId)
     .then(task => {
       res.send(task)
     })
@@ -67,7 +67,11 @@ router.put('/boards/:boardId/lists/:listId/tasks/:taskId/subComments', (req, res
 router.delete('/boards/:boardId/lists/:listId/tasks/:taskId/subComments/:commentId', (req, res, next) => {
   Tasks.findById(req.params.taskId)
     .then(task => {
-      task.subComments.id(req.params.commentId).remove()
+      task.subComments.forEach((sub, index) => {
+        if (sub._id == req.params.commentId) {
+          task.subComments.splice(index, 1)
+        }
+      });
       task.save(err => {
         if (err) {
           return res.status(500).send(err)

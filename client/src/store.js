@@ -137,7 +137,7 @@ export default new Vuex.Store({
         })
     },
     setActiveTask({ commit, dispatch }, payload) {
-      api.get('boards/' + payload.boardId + '/lists/' + (payload._id || payload.listId) + '/tasks/' + payload.taskId)
+      api.get('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id)
         .then(res => {
           commit('setActiveTask', res.data)
         })
@@ -156,7 +156,6 @@ export default new Vuex.Store({
         })
     },
     getTasks({ commit, dispatch }, payload) {
-      debugger
       api.get('boards/' + payload.boardId + '/lists/' + (payload._id || payload.listId) + '/tasks')
         .then(res => {
           commit('setTasks', { tasks: res.data, listId: payload._id || payload.listId })
@@ -182,7 +181,6 @@ export default new Vuex.Store({
         })
     },
     editTask({ commit, dispatch }, payload) {
-      debugger
       api.put('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id, payload)
         .then(res => {
           dispatch('getTaskUpdate', payload)
@@ -195,10 +193,8 @@ export default new Vuex.Store({
         })
     },
     deleteComment({ commit, dispatch }, payload) {
-      debugger
-      api.delete('boards/' + payload.boardId + '/lists/' + payload._id + '/tasks/' + payload.taskId + '/subComments/' + 'payload.subComments._id', payload)
+      api.delete('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload.taskId + '/subComments/' + payload.commentId)
         .then(res => {
-          debugger
           dispatch('getTasks', payload)
         })
     }
