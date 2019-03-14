@@ -1,7 +1,11 @@
 <template>
-  <div id="app">
+  <div id="app" class="container-fluid">
     <router-view />
-    <button class="btn btn-danger d-flex justify-content-end" @click="logOut()">Log Out</button>
+    <div class="row">
+      <div class="col-3 offset-7">
+        <button class="btn btn-danger d-flex justify-content-end align-self-end" @click="logOut()">Log Out</button>
+      </div>
+    </div>
   </div>
 </template>
 

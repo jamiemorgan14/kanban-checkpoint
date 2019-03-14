@@ -5,6 +5,7 @@
       </div>
       <div class="card-body">
         <h5 class="card-title">{{listData.title}}</h5>
+        <hr>
         <task v-for="task in tasks" :taskData='task'></task>
 
 

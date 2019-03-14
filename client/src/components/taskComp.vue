@@ -40,8 +40,8 @@
           <p v-for="comment in taskData.subComments">{{comment.description}}</p>
         </div>
         <form @submit.prevent="addComment" v-if="addSubCommentForm">
-          <input required v-model="newComment.description" type="text"><button type="submit" class="btn-sm btn-outline-dark mx-1"><i
-              class="fas fa-check-square"></i></button>
+          <input required v-model="newComment.description" type="text"><button @click="addSubCommentForm = false" type="submit"
+            class="btn-sm btn-outline-dark mx-1"><i class="fas fa-check-square"></i></button>
         </form>
       </ul>
     </div>
@@ -85,7 +85,6 @@
         this.$store.dispatch('editTask', editedTask)
       },
       editTask(editedTask) {
-        debugger
         this.$store.dispatch('editTask', editedTask)
         this.editTaskDetails = false
         this.editedTask = {}
@@ -93,6 +92,7 @@
       addComment() {
         this.editedTask.subComments.push(this.newComment)
         this.editTask(this.editedTask)
+        event.target.reset()
       },
       removeTask(editedTask) {
         this.$store.dispatch('deleteTask', editedTask)
@@ -124,9 +124,5 @@
 
   .inline {
     display: inline-block
-  }
-
-  .card {
-    width: 420px
   }
 </style>

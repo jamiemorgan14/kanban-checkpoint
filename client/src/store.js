@@ -137,7 +137,6 @@ export default new Vuex.Store({
         })
     },
     editTask({ commit, dispatch }, payload) {
-      debugger
       api.put('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id, payload)
         .then(res => {
           dispatch('getTaskUpdate', payload)

@@ -1,16 +1,20 @@
 <template>
-  <div class="board container-fluid mt-2">
-    <form @submit.prevent="addList">
-      <input type="text" placeholder="title" v-model="newList.title" required>
-      <button type="submit">Create List</button>
-    </form>
+  <div class="board mt-2">
     <div class="row">
-      <div class="col mt-3">
+      <div class="col-sm-12 col-md-3">
+
+        <form @submit.prevent="addList">
+          <input type="text" placeholder="title" v-model="newList.title" required>
+          <button type="submit">Create List</button>
+        </form>
+      </div>
+      <div class="col-sm-12 col-md-3 offset-2">
         <h1>{{board.title}}</h1>
       </div>
     </div>
+
     <div class="row">
-      <list class="col-4" v-for="list in lists" :listData='list'></list>
+      <list class="col-sm-12 col-md-4" v-for="list in lists" :listData='list'></list>
     </div>
   </div>
 </template>
