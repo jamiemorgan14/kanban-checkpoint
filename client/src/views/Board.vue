@@ -16,11 +16,15 @@
     <div class="row">
       <list class="col-sm-12 col-md-4" v-for="list in lists" :listData='list'></list>
     </div>
+
+    <oneList data-toggle="modal"></oneList>
   </div>
 </template>
 
 <script>
   import list from '@/components/ListComp.vue';
+  import oneList from '@/components/OneList.vue'
+
 
   export default {
     name: "board",
@@ -30,11 +34,13 @@
           title: "",
           boardId: this.$route.params.boardId,
           authorId: this.$store.state.user._id
-        }
+        },
+        showOpenView: false
       }
     },
     mounted() {
       this.$store.dispatch('getLists', this.$route.params.boardId)
+      this.$store.dispatch('setActiveBoard', this.newList.boardId)
     },
     computed: {
       board() {
@@ -45,16 +51,24 @@
       },
       user() {
         return this.$store.state.user
+      },
+      activeList() {
+        return this.$store.state.activeList
+        if (this.$store.state.activeList) {
+          this.showOpenView
+        }
+
       }
     },
     props: ["boardId"],
     components: {
-      list
+      list,
+      oneList
     },
     methods: {
       addList() {
         this.$store.dispatch('addList', this.newList)
-      }
+      },
     }
 
   };

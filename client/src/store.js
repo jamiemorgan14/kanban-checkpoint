@@ -24,7 +24,9 @@ export default new Vuex.Store({
     lists: [],
     tasks: {},
     activeBoard: {},
-    activeList: {}
+    activeList: {},
+    activeTasks: {},
+    activeTask: {}
   },
   mutations: {
     setUser(state, user) {
@@ -33,8 +35,17 @@ export default new Vuex.Store({
     setBoards(state, boards) {
       state.boards = boards
     },
+    setActiveBoard(state, data) {
+      state.activeBoard = data
+    },
     setActiveList(state, data) {
       state.activeList = data
+    },
+    setActiveTasks(state, data) {
+      state.activeTasks = data
+    },
+    setActiveTask(state, data) {
+      state.activeTask = data
     },
     setLists(state, data) {
       state.lists = data
@@ -99,6 +110,39 @@ export default new Vuex.Store({
         })
     },
 
+    setActiveBoard({ commit, dispatch }, payload) {
+      api.get('boards/' + payload)
+        .then(res => {
+          commit('setActiveBoard', payload)
+        })
+    },
+
+    setActiveList({ commit, dispatch }, list) {
+      api.get('boards/' + list.boardId + '/lists/' + list._id)
+        .then(res => {
+          commit('setActiveList', res.data)
+        })
+    },
+    setActiveList2({ commit, dispatch }, task) {
+      api.get('boards/' + task.boardId + '/lists/' + task.listId)
+        .then(res => {
+          commit('setActiveList', res.data)
+        })
+    },
+
+    setActiveTasks({ commit, dispatch }, payload) {
+      api.get('boards/' + payload.boardId + '/lists/' + (payload._id || payload.listId) + '/tasks')
+        .then(res => {
+          commit('setActiveTasks', res.data)
+        })
+    },
+    setActiveTask({ commit, dispatch }, payload) {
+      api.get('boards/' + payload.boardId + '/lists/' + (payload._id || payload.listId) + '/tasks/' + payload.taskId)
+        .then(res => {
+          commit('setActiveTask', res.data)
+        })
+    },
+
     getLists({ commit, dispatch }, payload) {
       api.get('boards/' + payload + '/lists')
         .then(res => {
@@ -112,6 +156,7 @@ export default new Vuex.Store({
         })
     },
     getTasks({ commit, dispatch }, payload) {
+      debugger
       api.get('boards/' + payload.boardId + '/lists/' + (payload._id || payload.listId) + '/tasks')
         .then(res => {
           commit('setTasks', { tasks: res.data, listId: payload._id || payload.listId })
@@ -137,6 +182,7 @@ export default new Vuex.Store({
         })
     },
     editTask({ commit, dispatch }, payload) {
+      debugger
       api.put('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id, payload)
         .then(res => {
           dispatch('getTaskUpdate', payload)
@@ -146,6 +192,14 @@ export default new Vuex.Store({
       api.delete('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload._id, payload)
         .then(res => {
           dispatch('getTaskUpdate', payload)
+        })
+    },
+    deleteComment({ commit, dispatch }, payload) {
+      debugger
+      api.delete('boards/' + payload.boardId + '/lists/' + payload._id + '/tasks/' + payload.taskId + '/subComments/' + 'payload.subComments._id', payload)
+        .then(res => {
+          debugger
+          dispatch('getTasks', payload)
         })
     }
     // getList

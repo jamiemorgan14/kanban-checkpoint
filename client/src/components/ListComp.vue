@@ -12,10 +12,16 @@
       </div>
       <div class="card-footer text-muted text-center">
         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-          <button @click="showTaskForm = !showTaskForm" class="btn-sm btn-secondary mx-1">Make New Task</button>
-          <button href="#" class="btn-sm btn-primary mx-1">Go to List</button>
+          <button @click="showTaskForm = !showTaskForm" class="btn-sm btn-secondary mx-1">Create Task</button>
+          <button type="button" @click="openOne(listData)" class="btn-sm btn-primary mx-1" data-toggle="modal"
+            data-target="#exampleModal">
+            Open List
+          </button>
           <button @click="deleteList(listData)" class="btn-sm btn-danger mx-1">Delete List</button>
         </div>
+
+
+
         <form class="mt-2" v-if="showTaskForm" @submit.prevent="createTask(newTask), showTaskForm = false">
           <input type="text" v-model="newTask.description" required>
           <button type="submit" class="btn-sm btn-info">Create Task</button>
@@ -29,6 +35,7 @@
 
 <script>
   import task from '@/components/taskComp.vue'
+  import oneList from '@/components/OneList.vue'
   export default {
     mounted() {
       this.$store.dispatch('getTasks', this.listData)
@@ -43,7 +50,7 @@
           listId: this.listData._id,
           boardId: this.$route.params.boardId
         },
-        showTaskForm: false
+        showTaskForm: false,
       }
     },
     computed: {
@@ -61,10 +68,15 @@
       createTask(newTask) {
         this.$store.dispatch('makeTask', newTask)
         event.target.reset()
+      },
+      openOne(list) {
+        this.$store.dispatch(('setActiveList', 'setActiveTasks'), list)
+
       }
     },
     components: {
-      task
+      task,
+      oneList
     }
   }
 </script>

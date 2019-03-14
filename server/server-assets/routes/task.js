@@ -14,6 +14,18 @@ router.get('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
     })
 })
 
+//get one task
+router.get('boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
+  Tasks.find({ taskId: req.params.taskId })
+    .then(task => {
+      res.send(task)
+    })
+    .catch(err => {
+      console.log(err)
+      next()
+    })
+})
+
 //POST
 router.post('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
   Tasks.create(req.body)
