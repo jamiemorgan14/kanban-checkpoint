@@ -45,13 +45,9 @@
         showTaskForm: false
       };
     },
-    computed: {
-      lists() {
-        return this.$store.state.lists;
-      },
-      tasks() {
-        return this.$store.state.tasks[this.listData._id];
-      }
+    components: {
+      task,
+      oneList
     },
     methods: {
       deleteList(listData) {
@@ -60,6 +56,14 @@
       createTask(newTask) {
         this.$store.dispatch("makeTask", newTask);
         event.target.reset();
+      },
+      computed: {
+        lists() {
+          return this.$store.state.lists;
+        },
+        tasks() {
+          return this.$store.state.tasks[this.listData._id];
+        }
       },
       methods: {
         deleteList(listData) {
@@ -85,6 +89,7 @@
         }
       }
     }
+  }
 </script>
 <style>
   .card {

@@ -4,15 +4,16 @@ import Axios from 'axios'
 import router from './router'
 
 Vue.use(Vuex)
+let base = window.location.host.includes('localhost:8080') ? '//localhost:3000' : '/'
 
 let auth = Axios.create({
-  baseURL: "//localhost:3000/auth/",
+  baseURL: base + "auth/",
   timeout: 3000,
   withCredentials: true
 })
 
 let api = Axios.create({
-  baseURL: "//localhost:3000/api/",
+  baseURL: base + "api/",
   timeout: 3000,
   withCredentials: true
 })
@@ -54,6 +55,9 @@ export default new Vuex.Store({
       // state.tasks[data.listId] = data.tasks
       Vue.set(state.tasks, data.listId, data.tasks)
     },
+    goBack() {
+      router.go(-1);
+    }
 
   },
   actions: {
@@ -198,12 +202,15 @@ export default new Vuex.Store({
           dispatch('getTasks', payload)
         })
     },
-    changeList({commit, dispatch}, payload){
+    changeList({ commit, dispatch }, payload) {
       api.put('boards/' + payload.boardId + '/lists/' + payload.task.listId + '/tasks/' + payload.task._id, payload.task)
-        .then(res=>{
+        .then(res => {
           dispatch('getTasks', payload)
-          dispatch('getTasks', {boardId: payload.boardId, listId: payload.oldListId})
+          dispatch('getTasks', { boardId: payload.boardId, listId: payload.oldListId })
         })
+    },
+    goBack({ commit, dispatch }) {
+      commit('goBack')
     }
     // getList
     //#endregion
