@@ -75,8 +75,8 @@
           oldListId
         });
       }
-
     }
+  }
 </script>
 <style>
   .card {
