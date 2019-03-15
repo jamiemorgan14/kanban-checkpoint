@@ -66,6 +66,10 @@ export default {
       return this.$store.state.tasks[this.listData._id];
     }
   },
+  components: {
+    task,
+    oneList
+  },
   methods: {
     deleteList(listData) {
       this.$store.dispatch("deleteList", listData);
