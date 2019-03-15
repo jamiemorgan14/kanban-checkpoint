@@ -23,7 +23,7 @@
           <hr>
           <div class="card-body text-center mt-2">
             <h5 class="card-title">{{board.title}}</h5>
-            <h6 class="card-subtitle text-muted">{{board.description}}</h6>
+            <h6 class="card-subtitle text-muted sub-desc">{{board.description}}</h6>
           </div>
         </div>
       </router-link>
@@ -86,14 +86,16 @@
   }
 
   .card {
-    height: 220px
+    height: 220px;
+    background-color: rgba(30, 43, 49, 0.514);
+    color: white
   }
 
   .far {
     cursor: pointer
   }
 
-  .card-title {
-    color: black
+  .sub-desc {
+    color: lightgoldenrodyellow
   }
 </style>

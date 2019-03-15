@@ -1,7 +1,7 @@
 <template>
-  <div class="login row login-forms ">
+  <div class="login row login-forms">
     <div class="d-flex flex-wrap align-content-center">
-      <div class="col text-center mb-5">
+      <div class="col text-center mb-3">
         <h1>Welcome to KanBan</h1>
       </div>
       <div class="col-12 text-center">

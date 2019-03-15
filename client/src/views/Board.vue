@@ -1,30 +1,35 @@
 <template>
   <div class="board">
-    <div class="row">
-      <div class="col-sm-12 col-md-3 mt-1">
-
+    <div class="row text-center boards-view">
+      <div class="col-sm-12 mt-1">
+        <h1 class="text-light mt-1">{{board.title}}</h1>
+        <div class="row board-details">
+          <div class="col-12 text-center mb-1">
+            <h4 class="sub-desc">"{{board.description}}"</h4>
+          </div>
+        </div>
         <form @submit.prevent="addList">
-          <input type="text" placeholder="title" v-model="newList.title" required>
-          <button type="submit">Create List</button>
+          <input type="text" placeholder="Create a List" v-model="newList.title" required><br>
+          <button type="submit" class="btn btn-outline-light mt-3">Create List</button>
         </form>
       </div>
-      <div class="col-sm-12 col-md-3 offset-2">
-        <h1>{{board.title}}</h1>
-      </div>
     </div>
+
 
     <div class="row">
       <list class="col-sm-12 col-md-4" v-for="list in lists" :listData='list'></list>
     </div>
+    <div>
+      <oneList data-toggle="modal"></oneList>
+    </div>
 
-    <oneList data-toggle="modal"></oneList>
   </div>
 </template>
 
 <script>
   import list from '@/components/ListComp.vue';
   import oneList from '@/components/OneList.vue'
-
+  import router from '@/router.js'
 
   export default {
     name: "board",
@@ -32,6 +37,8 @@
       //blocks users not logged in
       if (!this.$store.state.user._id) {
         this.$router.push({ name: "login" });
+      } else {
+        this.$router.push({ name: "board", params: { boardId: this.boardId } })
       }
     },
     data() {
@@ -80,4 +87,24 @@
   };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .board {
+    color: black
+  }
+
+  input {
+    height: 50px;
+    width: 400px;
+    text-align: center;
+    border: 1px solid rgba(224, 224, 224, 0.473);
+    border-radius: 3%
+  }
+
+  .board-details {
+    bottom: 20px
+  }
+
+  .sub-desc {
+    color: lightgoldenrodyellow
+  }
+</style>

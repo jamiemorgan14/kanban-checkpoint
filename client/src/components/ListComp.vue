@@ -11,13 +11,12 @@
 
       </div>
       <div class="card-footer text-muted text-center">
-        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-          <button @click="showTaskForm = !showTaskForm" class="btn-sm btn-secondary mx-1">Create Task</button>
-          <button type="button" @click="openOne(listData)" class="btn-sm btn-primary mx-1" data-toggle="modal"
-            data-target="#exampleModal">
-            Open List
-          </button>
-          <button @click="deleteList(listData)" class="btn-sm btn-danger mx-1">Delete List</button>
+        <div class="btn-group btn-group-sm  d-flex justify-content-between" role="group" aria-label="Basic example">
+          <i class="far fa-plus-square mx-1 point" @click="showTaskForm = !showTaskForm"></i>
+
+          <i class="fas fa-external-link-alt mx-1 point" @click="openOne(listData)" data-toggle="modal" data-target="#exampleModal"></i>
+
+          <i @click="deleteList(listData)" class="far fa-trash-alt mx-1 point"></i>
         </div>
 
 
@@ -26,8 +25,6 @@
           <input type="text" v-model="newTask.description" required>
           <button type="submit" class="btn-sm btn-info">Create Task</button>
         </form>
-        <hr>
-        Last Updated???
       </div>
     </div>
   </div>
@@ -78,5 +75,16 @@
       task,
       oneList
     }
+
   }
 </script>
+<style>
+  .card {
+    background-color: rgba(30, 43, 49, 0.514);
+    color: white
+  }
+
+  .point {
+    cursor: pointer
+  }
+</style>

@@ -2,8 +2,8 @@
   <div id="app" class="container-fluid">
     <router-view />
     <div class="row">
-      <div class="col-3 offset-7">
-        <button class="btn btn-danger d-flex logout-button" @click="logOut()">Log Out</button>
+      <div>
+        <button class="btn btn-outline-danger d-flex logout-button" @click="logOut()">Log Out</button>
       </div>
     </div>
   </div>
@@ -49,7 +49,7 @@
 
   .logout-button {
     position: fixed;
-    bottom: 10px;
+    top: 10px;
     right: 10px
   }
 </style>
