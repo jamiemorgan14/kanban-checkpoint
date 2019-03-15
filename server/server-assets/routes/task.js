@@ -17,8 +17,11 @@ router.get('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
 //get one task
 router.get('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
   //can i do this with a find instead of a find by ID
-  Tasks.findById(req.params.taskId, authorId: req.params.authorId)
+  Tasks.findById(req.params.taskId)
     .then(task => {
+      if (!task.authorId.equals(req.session.uid)) {
+        return res.status(401).send("ACCESS DENIED!")
+      }
       res.send(task)
     })
     .catch(err => {
