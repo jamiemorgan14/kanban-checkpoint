@@ -54,6 +54,9 @@ export default new Vuex.Store({
       // state.tasks[data.listId] = data.tasks
       Vue.set(state.tasks, data.listId, data.tasks)
     },
+    goBack() {
+      router.go(-1);
+    }
 
   },
   actions: {
@@ -198,12 +201,15 @@ export default new Vuex.Store({
           dispatch('getTasks', payload)
         })
     },
-    changeList({commit, dispatch}, payload){
+    changeList({ commit, dispatch }, payload) {
       api.put('boards/' + payload.boardId + '/lists/' + payload.task.listId + '/tasks/' + payload.task._id, payload.task)
-        .then(res=>{
+        .then(res => {
           dispatch('getTasks', payload)
-          dispatch('getTasks', {boardId: payload.boardId, listId: payload.oldListId})
+          dispatch('getTasks', { boardId: payload.boardId, listId: payload.oldListId })
         })
+    },
+    goBack({ commit, dispatch }) {
+      commit('goBack')
     }
     // getList
     //#endregion
