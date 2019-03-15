@@ -4,7 +4,7 @@ let Lists = require('../models/list')
 //GET
 //gets all lists by board id
 router.get('/boards/:boardId/lists', (req, res, next) => {
-  Lists.find({ boardId: req.params.boardId })
+  Lists.find({ boardId: req.params.boardId, authorId: req.params.authorId })
     .then(lists => {
       res.send(lists)
     })
@@ -16,7 +16,7 @@ router.get('/boards/:boardId/lists', (req, res, next) => {
 
 //GETONE
 router.get('/boards/:boardId/lists/:listId', (req, res, next) => {
-  Lists.findOne({ _id: req.params.listId })
+  Lists.findOne({ _id: req.params.listId, authorId: req.params.authorId })
     .then(data => {
       res.send(data)
     })
@@ -28,6 +28,7 @@ router.get('/boards/:boardId/lists/:listId', (req, res, next) => {
 
 //POST
 router.post('/boards/:boardId/lists', (req, res, next) => {
+  req.body.authorId = req.session.uid
   Lists.create(req.body)
     .then(newList => {
       res.send(newList)
@@ -40,6 +41,7 @@ router.post('/boards/:boardId/lists', (req, res, next) => {
 
 // PUT
 router.put('/boards/:boardId/lists/:listId', (req, res, next) => {
+  delete req.body.authorId
   Lists.findOneAndUpdate({ _id: req.params.listId }, req.body, { new: true })
     .then(list => {
       res.send(list)

@@ -4,7 +4,7 @@ let Tasks = require('../models/task')
 //GET
 //gets all  by board id
 router.get('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
-  Tasks.find({ listId: req.params.listId })
+  Tasks.find({ listId: req.params.listId, authorId: req.params.authorId })
     .then(tasks => {
       res.send(tasks)
     })
@@ -16,7 +16,8 @@ router.get('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
 
 //get one task
 router.get('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
-  Tasks.findById(req.params.taskId)
+  //can i do this with a find instead of a find by ID
+  Tasks.findById(req.params.taskId, authorId: req.params.authorId)
     .then(task => {
       res.send(task)
     })
@@ -28,6 +29,7 @@ router.get('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
 
 //POST
 router.post('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
+  req.body.authorId = req.session.uid
   Tasks.create(req.body)
     .then(newTask => {
       res.send(newTask)
@@ -41,6 +43,7 @@ router.post('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
 
 //PUT
 router.put('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
+  delete req.body.authorId
   Tasks.findOneAndUpdate({ _id: req.params.taskId }, req.body, { new: true })
     .then(task => {
       res.send(task)
@@ -52,6 +55,7 @@ router.put('/boards/:boardId/lists/:listId/tasks/:taskId', (req, res, next) => {
 
 //add subcomment
 router.put('/boards/:boardId/lists/:listId/tasks/:taskId/subComments', (req, res, next) => {
+  delete req.body.authorId
   Tasks.findById(req.params.taskId)
     .then(task => {
       task.subComments.push(req.body)
@@ -67,6 +71,9 @@ router.put('/boards/:boardId/lists/:listId/tasks/:taskId/subComments', (req, res
 router.delete('/boards/:boardId/lists/:listId/tasks/:taskId/subComments/:commentId', (req, res, next) => {
   Tasks.findById(req.params.taskId)
     .then(task => {
+      if (!task.authorId.equals(req.session.uid)) {
+        return res.status(401).send("ACCESS DENIED!")
+      }
       task.subComments.forEach((sub, index) => {
         if (sub._id == req.params.commentId) {
           task.subComments.splice(index, 1)

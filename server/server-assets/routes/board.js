@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:boardId', (req, res, next) => {
-  Boards.findOne({ _id: req.params.boardId })
+  Boards.findOne({ _id: req.params.boardId, authorId: req.session.uid })
     .then(data => {
       res.send(data)
     })
