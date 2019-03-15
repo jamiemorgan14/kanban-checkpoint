@@ -3,7 +3,7 @@
     <router-view />
     <div class="row">
       <div class="col-3 offset-7">
-        <button class="btn btn-danger d-flex justify-content-end align-self-end" @click="logOut()">Log Out</button>
+        <button class="btn btn-danger d-flex logout-button" @click="logOut()">Log Out</button>
       </div>
     </div>
   </div>
@@ -29,7 +29,9 @@
     font-family: "Avenir", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
+    color: white;
+    height: 100vh;
+    background-color: darkslategray;
   }
 
   #nav {
@@ -43,5 +45,11 @@
 
   #nav a.router-link-exact-active {
     color: #42b983;
+  }
+
+  .logout-button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px
   }
 </style>
