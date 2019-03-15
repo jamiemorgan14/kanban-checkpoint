@@ -53,7 +53,8 @@ export default new Vuex.Store({
     setTasks(state, data) {
       // state.tasks[data.listId] = data.tasks
       Vue.set(state.tasks, data.listId, data.tasks)
-    }
+    },
+
   },
   actions: {
     //#region -- AUTH STUFF --
@@ -129,7 +130,6 @@ export default new Vuex.Store({
           commit('setActiveList', res.data)
         })
     },
-
     setActiveTasks({ commit, dispatch }, payload) {
       api.get('boards/' + payload.boardId + '/lists/' + (payload._id || payload.listId) + '/tasks')
         .then(res => {
@@ -196,6 +196,13 @@ export default new Vuex.Store({
       api.delete('boards/' + payload.boardId + '/lists/' + payload.listId + '/tasks/' + payload.taskId + '/subComments/' + payload.commentId)
         .then(res => {
           dispatch('getTasks', payload)
+        })
+    },
+    changeList({commit, dispatch}, payload){
+      api.put('boards/' + payload.boardId + '/lists/' + payload.task.listId + '/tasks/' + payload.task._id, payload.task)
+        .then(res=>{
+          dispatch('getTasks', payload)
+          dispatch('getTasks', {boardId: payload.boardId, listId: payload.oldListId})
         })
     }
     // getList
