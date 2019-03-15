@@ -197,6 +197,13 @@ export default new Vuex.Store({
         .then(res => {
           dispatch('getTasks', payload)
         })
+    },
+    changeList({commit, dispatch}, payload){
+      debugger
+      api.put('boards/' + payload.data.list.boardId + '/lists/' + payload.data.oldTask.listId + '/tasks/' + payload.data.oldTask._id, payload.data.newTask)
+         dispatch('getTasks', payload.data.oldTask.listId)
+          dispatch('getTasks', payload.data.newTask)
+      
     }
     // getList
     //#endregion
