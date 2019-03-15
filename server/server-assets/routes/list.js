@@ -4,7 +4,7 @@ let Lists = require('../models/list')
 //GET
 //gets all lists by board id
 router.get('/boards/:boardId/lists', (req, res, next) => {
-  Lists.find({ boardId: req.params.boardId, authorId: req.params.authorId })
+  Lists.find({ boardId: req.params.boardId, authorId: req.session.uid })
     .then(lists => {
       res.send(lists)
     })
@@ -16,7 +16,7 @@ router.get('/boards/:boardId/lists', (req, res, next) => {
 
 //GETONE
 router.get('/boards/:boardId/lists/:listId', (req, res, next) => {
-  Lists.findOne({ _id: req.params.listId, authorId: req.params.authorId })
+  Lists.findOne({ _id: req.params.listId, authorId: req.session.uid })
     .then(data => {
       res.send(data)
     })
