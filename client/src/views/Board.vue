@@ -1,7 +1,7 @@
 <template>
-  <div class="board mt-2">
+  <div class="board">
     <div class="row">
-      <div class="col-sm-12 col-md-3">
+      <div class="col-sm-12 col-md-3 mt-1">
 
         <form @submit.prevent="addList">
           <input type="text" placeholder="title" v-model="newList.title" required>
@@ -28,6 +28,12 @@
 
   export default {
     name: "board",
+    created() {
+      //blocks users not logged in
+      if (!this.$store.state.user._id) {
+        this.$router.push({ name: "login" });
+      }
+    },
     data() {
       return {
         newList: {
@@ -73,3 +79,5 @@
 
   };
 </script>
+
+<style scoped></style>
