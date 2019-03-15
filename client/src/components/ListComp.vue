@@ -77,15 +77,14 @@ export default {
       this.$store.dispatch(("setActiveList", "setActiveTasks"), list);
     },
     changeList(task) {
-      let change = {
-        list: this.listData,
-        oldTask: task,
-        newTask: {
-          listId: this.listData._id
-        }
-      };
+      let oldListId = task.listId;
+      task.listId = this.listData._id;
+
       this.$store.dispatch("changeList", {
-        data: change
+        task,
+        boardId: this.listData.boardId,
+        listId: this.listData._id,
+        oldListId
       });
     }
   },
