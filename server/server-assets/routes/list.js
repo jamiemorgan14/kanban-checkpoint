@@ -4,7 +4,7 @@ let Lists = require('../models/list')
 //GET
 //gets all lists by board id
 router.get('/boards/:boardId/lists', (req, res, next) => {
-  Lists.find()
+  Lists.find({ boardId: req.params.boardId })
     .then(lists => {
       res.send(lists)
     })
