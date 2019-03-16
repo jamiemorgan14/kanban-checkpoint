@@ -32,71 +32,71 @@
 </template>
 
 <script>
-import router from "@/router.js";
-export default {
-  name: "boards",
-  created() {
-    //blocks users not logged in
-    if (!this.$store.state.user._id) {
-      this.$router.push({ name: "login" });
-    } else {
-      this.$router.push({ name: "boards" });
-    }
-  },
-  mounted() {
-    this.$store.dispatch("getBoards");
-  },
-  data() {
-    return {
-      newBoard: {
-        title: "",
-        description: ""
+  import router from "@/router.js";
+  export default {
+    name: "boards",
+    created() {
+      //blocks users not logged in
+      if (!this.$store.state.user._id) {
+        this.$router.push({ name: "login" });
+      } else {
+        this.$router.push({ name: "boards" });
       }
-    };
-  },
-  computed: {
-    boards() {
-      return this.$store.state.boards;
-    }
-  },
-  methods: {
-    addBoard() {
-      this.$store.dispatch("addBoard", this.newBoard);
-      this.newBoard = { title: "", description: "" };
     },
-    deleteBoard(boardId) {
-      this.$store.dispatch("deleteBoard", boardId);
+    mounted() {
+      this.$store.dispatch("getBoards");
     },
-    goBack() {
-      this.$store.dispatch("goBack");
+    data() {
+      return {
+        newBoard: {
+          title: "",
+          description: ""
+        }
+      };
+    },
+    computed: {
+      boards() {
+        return this.$store.state.boards;
+      }
+    },
+    methods: {
+      addBoard() {
+        this.$store.dispatch("addBoard", this.newBoard);
+        this.newBoard = { title: "", description: "" };
+      },
+      deleteBoard(boardId) {
+        this.$store.dispatch("deleteBoard", boardId);
+      },
+      goBack() {
+        this.$store.dispatch("goBack");
+      }
     }
-  }
-};
+  };
 </script>
 <style scoped>
-input {
-  height: 50px;
-  width: 400px;
-  text-align: center;
-  border: 1px solid rgba(224, 224, 224, 0.473);
-  border-radius: 3%;
-}
+  input {
+    height: 50px;
+    width: 400px;
+    text-align: center;
+    border: 1px solid rgba(224, 224, 224, 0.473);
+    border-radius: 3%;
+  }
 
-.boards {
-  color: black;
-}
+  .boards {
+    color: black;
+  }
 
-.card {
-  height: 220px;
-  background-color: rgba(30, 43, 49, 0.514);
-  color: white;
-}
+  .card {
+    height: 220px;
+    background-color: rgba(30, 43, 49, 0.514);
+    color: white;
+  }
 
-.far {
-  cursor: pointer;
-}
+  .far {
+    cursor: pointer;
+  }
 
-.sub-desc {
-  color: lightgoldenrodyellow;
-}
+  .sub-desc {
+    color: lightgoldenrodyellow;
+  }
 </style>
