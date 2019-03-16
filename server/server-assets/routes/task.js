@@ -4,7 +4,7 @@ let Tasks = require('../models/task')
 //GET
 //gets all  by board id
 router.get('/boards/:boardId/lists/:listId/tasks', (req, res, next) => {
-  Tasks.find({ listId: req.params.listId, authorId: req.params.authorId })
+  Tasks.find({ listId: req.params.listId, authorId: req.session.uid })
     .then(tasks => {
       res.send(tasks)
     })

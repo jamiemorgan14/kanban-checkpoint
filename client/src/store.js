@@ -160,6 +160,7 @@ export default new Vuex.Store({
         })
     },
     getTasks({ commit, dispatch }, payload) {
+      debugger
       api.get('boards/' + payload.boardId + '/lists/' + (payload._id || payload.listId) + '/tasks')
         .then(res => {
           commit('setTasks', { tasks: res.data, listId: payload._id || payload.listId })
