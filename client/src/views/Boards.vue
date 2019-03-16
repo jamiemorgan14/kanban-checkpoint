@@ -14,7 +14,7 @@
       <hr>
     </div>
 
-    <div class="col-sm-12 col-md-4" v-for="board in boards" :key="board._id">
+    <div class="col-sm-12 col-md-4 mt-4" v-for="board in boards" :key="board._id">
       <router-link :to="{name: 'board', params: {boardId: board._id}}">
         <div class="card">
           <div class="d-flex justify-content-between mt-2 mx-2">

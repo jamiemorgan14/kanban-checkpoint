@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-      <list class="col-sm-12 col-md-4" v-for="list in lists" :listData="list"></list>
+      <list class="col-sm-12 col-md-4 mt-4" v-for="list in lists" :listData="list"></list>
     </div>
     <div>
       <oneList data-toggle="modal"></oneList>
@@ -27,93 +27,94 @@
 </template>
 
 <script>
-import list from "@/components/ListComp.vue";
-import oneList from "@/components/OneList.vue";
-import router from "@/router.js";
+  import list from "@/components/ListComp.vue";
+  import oneList from "@/components/OneList.vue";
+  import router from "@/router.js";
 
-export default {
-  name: "board",
-  created() {
-    //blocks users not logged in
-    if (!this.$store.state.user._id) {
-      this.$router.push({ name: "login" });
-    } else {
-      this.$router.push({ name: "board", params: { boardId: this.boardId } });
-    }
-  },
-  data() {
-    return {
-      newList: {
-        title: "",
-        boardId: this.$route.params.boardId,
-        authorId: this.$store.state.user._id
+  export default {
+    name: "board",
+    created() {
+      //blocks users not logged in
+      if (!this.$store.state.user._id) {
+        this.$router.push({ name: "login" });
+      } else {
+        this.$router.push({ name: "board", params: { boardId: this.boardId } });
+      }
+    },
+    data() {
+      return {
+        newList: {
+          title: "",
+          boardId: this.$route.params.boardId,
+          authorId: this.$store.state.user._id
+        },
+        showOpenView: false
+      };
+    },
+    mounted() {
+      this.$store.dispatch("getLists", this.$route.params.boardId);
+      this.$store.dispatch("setActiveBoard", this.newList.boardId);
+    },
+    computed: {
+      board() {
+        return (
+          this.$store.state.boards.find(b => b._id == this.boardId) || {
+            title: "Loading..."
+          }
+        );
       },
-      showOpenView: false
-    };
-  },
-  mounted() {
-    this.$store.dispatch("getLists", this.$route.params.boardId);
-    this.$store.dispatch("setActiveBoard", this.newList.boardId);
-  },
-  computed: {
-    board() {
-      return (
-        this.$store.state.boards.find(b => b._id == this.boardId) || {
-          title: "Loading..."
+      lists() {
+        return this.$store.state.lists;
+      },
+      user() {
+        return this.$store.state.user;
+      },
+      activeList() {
+        return this.$store.state.activeList;
+        if (this.$store.state.activeList) {
+          this.showOpenView;
         }
-      );
+      }
     },
-    lists() {
-      return this.$store.state.lists;
+    props: ["boardId"],
+    components: {
+      list,
+      oneList
     },
-    user() {
-      return this.$store.state.user;
-    },
-    activeList() {
-      return this.$store.state.activeList;
-      if (this.$store.state.activeList) {
-        this.showOpenView;
+    methods: {
+      addList() {
+        this.$store.dispatch("addList", this.newList);
+      },
+      goBack() {
+        this.$store.dispatch("goBack");
       }
     }
-  },
-  props: ["boardId"],
-  components: {
-    list,
-    oneList
-  },
-  methods: {
-    addList() {
-      this.$store.dispatch("addList", this.newList);
-    },
-    goBack() {
-      this.$store.dispatch("goBack");
-    }
-  }
-};
+  };
 </script>
 
 <style scoped>
-.board {
-  color: black;
-}
+  .board {
+    color: black;
+  }
 
-input {
-  height: 50px;
-  width: 400px;
-  text-align: center;
-  border: 1px solid rgba(224, 224, 224, 0.473);
-  border-radius: 3%;
-}
+  input {
+    height: 50px;
+    width: 400px;
+    text-align: center;
+    border: 1px solid rgba(224, 224, 224, 0.473);
+    border-radius: 3%;
+  }
 
-.board-details {
-  bottom: 20px;
-}
+  .board-details {
+    bottom: 20px;
+  }
 
-.sub-desc {
-  color: lightgoldenrodyellow;
-}
-.back {
-  color: white;
-  cursor: pointer;
-}
+  .sub-desc {
+    color: lightgoldenrodyellow;
+  }
+
+  .back {
+    color: white;
+    cursor: pointer;
+  }
 </style>
