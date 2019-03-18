@@ -52,7 +52,7 @@
       };
     },
     mounted() {
-      this.$store.dispatch("getLists", this.$route.params.boardId);
+      this.$store.dispatch("getLists", this.$route.params.boardId || this.newList.boardId);
       this.$store.dispatch("setActiveBoard", this.newList.boardId);
     },
     computed: {

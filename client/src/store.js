@@ -148,7 +148,6 @@ export default new Vuex.Store({
     },
 
     getLists({ commit, dispatch }, payload) {
-      debugger
       api.get('boards/' + payload + '/lists')
         .then(res => {
           commit('setLists', res.data)

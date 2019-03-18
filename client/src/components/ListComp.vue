@@ -71,7 +71,7 @@
       },
       createTask(newTask) {
         this.$store.dispatch("makeTask", newTask);
-        event.target.reset();
+        newTask = {};
       },
       openOne(list) {
         this.$store.dispatch(("setActiveList", "setActiveTasks"), list);
