@@ -30,7 +30,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: white;
-    height: 100vh;
+    min-height: 100vh;
     background-color: darkslategray;
   }
 

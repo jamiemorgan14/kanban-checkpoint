@@ -1,10 +1,10 @@
 <template>
   <div class="list">
-    <drop @drop="changeList" class="card mt-3">
-      <div class="card-header"></div>
-      <div class="card-body">
+    <drop @drop="changeList" class="card my-3">
+      <div class="card-header">
         <h5 class="card-title">{{listData.title}}</h5>
-        <hr>
+      </div>
+      <div class="card-body">
         <task v-for="task in tasks" :taskData="task" :key="task._id"></task>
       </div>
       <div class="card-footer text-muted text-center">
@@ -98,5 +98,11 @@
 
   .point {
     cursor: pointer;
+  }
+
+  .card-body {
+    height: 35vh;
+    overflow-y: auto;
+    color: white;
   }
 </style>
