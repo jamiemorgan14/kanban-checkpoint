@@ -9,7 +9,7 @@
       </div>
       <div class="card-footer text-muted text-center">
         <div class="btn-group btn-group-sm d-flex justify-content-between" role="group" aria-label="Basic example">
-          <i class="far fa-plus-square mx-1 point" @click="showTaskForm = !showTaskForm"></i>
+          <i class="far fa-plus-square mx-1 point" @click="showTaskForm = !showTaskForm, newTask.description = ''"></i>
 
           <i class="fas fa-external-link-alt mx-1 point" @click="openOne(listData)" data-toggle="modal" data-target="#exampleModal"></i>
 
@@ -49,14 +49,7 @@
       task,
       oneList
     },
-    // methods: {
-    //   deleteList(listData) {
-    //     this.$store.dispatch("deleteList", listData);
-    //   },
-    //   createTask(newTask) {
-    //     this.$store.dispatch("makeTask", newTask);
-    //     event.target.reset();
-    //   },
+
     computed: {
       lists() {
         return this.$store.state.lists;
@@ -71,7 +64,6 @@
       },
       createTask(newTask) {
         this.$store.dispatch("makeTask", newTask);
-        newTask = {};
       },
       openOne(list) {
         this.$store.dispatch(("setActiveList", "setActiveTasks"), list);
