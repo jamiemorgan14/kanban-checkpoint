@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
 import router from './router'
+import { ElInput } from 'el-input'
+
+Vue.component('el-input', ElInput)
 
 Vue.use(Vuex)
 let base = window.location.host.includes('localhost:8080') ? '//localhost:3000/' : '/'

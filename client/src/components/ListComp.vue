@@ -8,7 +8,11 @@
         <task v-for="task in tasks" :taskData="task" :key="task._id"></task>
       </div>
       <div class="card-footer text-muted text-center">
-        <div class="btn-group btn-group-sm d-flex justify-content-between" role="group" aria-label="Basic example">
+        <form class="mt-2" v-if="showTaskForm" @submit.prevent="createTask(newTask), showTaskForm = false">
+          <input autofocus="autofocus" type="text" v-model="newTask.description" required />
+          <button type="submit" class="btn-sm btn-info ml-1">Create Task</button>
+        </form>
+        <div class="mt-2 d-flex justify-content-between" role="group" aria-label="Basic example">
           <i class="far fa-plus-square mx-1 point" @click="showTaskForm = !showTaskForm, newTask.description = ''"></i>
 
           <i class="fas fa-external-link-alt mx-1 point" @click="openOne(listData)" data-toggle="modal" data-target="#exampleModal"></i>
@@ -16,10 +20,6 @@
           <i @click="deleteList(listData)" class="far fa-trash-alt mx-1 point"></i>
         </div>
 
-        <form class="mt-2" v-if="showTaskForm" @submit.prevent="createTask(newTask), showTaskForm = false">
-          <input type="text" v-model="newTask.description" required>
-          <button type="submit" class="btn-sm btn-info">Create Task</button>
-        </form>
       </div>
     </drop>
   </div>
