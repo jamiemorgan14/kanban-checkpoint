@@ -40,11 +40,9 @@
     },
     computed: {
       activeList() {
-        // debugger
         return this.$store.state.activeList
       },
       activeTasks() {
-        // debugger
         return this.$store.state.activeTasks
       }
     },
