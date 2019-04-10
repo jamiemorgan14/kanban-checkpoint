@@ -216,7 +216,8 @@ export default new Vuex.Store({
     },
     goBack({ commit, dispatch }) {
       commit('goBack')
-    }
+    },
+
     // getList
     //#endregion
 

@@ -10,7 +10,13 @@
           </div>
         </div>
         <form @submit.prevent="addList">
-          <input type="text" placeholder="Create a List" v-model="newList.title" required>
+          <input
+            id="focus"
+            type="text"
+            placeholder="Create a List"
+            v-model="newList.title"
+            required
+          >
           <br>
           <button type="submit" class="btn btn-outline-light mt-3">Create List</button>
         </form>
@@ -18,7 +24,7 @@
     </div>
 
     <div class="row">
-      <list class="col-sm-12 col-md-4 mt-4" v-for="list in lists" :listData="list"></list>
+      <list class="col-sm-12 col-md-4 mt-4" v-for="list in lists" :key="list._id" :listData="list"></list>
     </div>
     <div>
       <oneList data-toggle="modal"></oneList>
@@ -57,6 +63,8 @@ export default {
       this.$route.params.boardId || this.newList.boardId
     );
     this.$store.dispatch("setActiveBoard", this.newList.boardId);
+
+    document.getElementById("focus").focus();
   },
   computed: {
     board() {
