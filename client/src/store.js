@@ -54,6 +54,11 @@ export default new Vuex.Store({
     setTasks(state, data) {
       // state.tasks[data.listId] = data.tasks
       Vue.set(state.tasks, data.listId, data.tasks)
+      data.tasks.sort((a, b) => {
+        return (
+          a.completed - b.completed
+        );
+      });
     },
     goBack() {
       router.go(-1);
