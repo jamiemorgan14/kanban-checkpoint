@@ -28,7 +28,7 @@
                 >
                   <h5 class="inline">{{taskData.description}}</h5>
                 </div>
-              </div>
+              </div>cd
             </div>
             <div class="inline" v-if="editTaskDetails">
               <form class="mt-2" @submit.prevent="editTask(editedTask)">
