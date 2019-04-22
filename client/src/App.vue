@@ -23,7 +23,8 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.user.id;
+      debugger;
+      return this.$store.state.user._id;
     }
   }
 };
