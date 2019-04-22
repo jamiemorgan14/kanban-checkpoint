@@ -23,7 +23,6 @@ export default {
   },
   computed: {
     user() {
-      debugger;
       return this.$store.state.user._id;
     }
   }
